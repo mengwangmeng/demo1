@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="js/jquery-2.2.3.js"></script>
+		<style type="text/css">
+			body{
+				margin:0;
+				padding:0;
+				text-align:center;
+			}
+			/*.bigbox{
+				width:
+			}*/
+			.box{
+				width:730px;
+				height:454px;
+				margin:50px auto;
+				overflow: hidden;
+				position:relative;
+			}
+			ul,li{
+				margin:0;
+				padding:0;
+			}
+			ul{
+				list-style: none;
+				position:absolute;
+			}
+			li{
+				float:left;
+				width:730px;
+			}
+			
+			.button_left{
+				width:30px;
+				height:80px;
+				background:black;
+				opacity: 0.5;
+				color:white;
+				font-size: 20px;
+				line-height:80px;
+				/*margin-top:200px;*/
+				position:absolute;
+				top:180px;
+				display: none;
+				left:0;
+			}
+			.button_right{
+				width:30px;
+				height:80px;
+				background:black;
+				opacity: 0.5;
+				color:white;
+				font-size: 20px;
+				line-height:80px;
+				position:absolute;
+				top:180px;
+				right:0;
+				display:none;
+			}
+			.button_bottom{
+				width:180px;
+				height:30px;
+				position:absolute;
+				bottom:0;
+				left:280px;
+			}
+			.button_bottom div{
+				width:20px;
+				height:20px;
+				background:black;
+				opacity: 0.5;
+				border-radius: 10px;
+				margin:5px;
+				float:left;
+				color:white;
+			}
+			/*.button_bottom div:hover*/
+		</style>
+	</head>
+	<body>
+		<div class='bigbox'>
+			<div class='box'>
+				<ul class='box_image'>
+					<li><img src="img/img1.jpg" alt="" /></li>
+					<li><img src="img/img2.jpg" alt="" /></li>
+					<li><img src="img/img3.jpg" alt="" /></li>
+					<li><img src="img/img4.jpg" alt="" /></li>
+					<li><img src="img/img5.jpg" alt="" /></li>
+					<li><img src="img/img6.jpg" alt="" /></li>
+				</ul>
+				<div class='button_left'>
+					<
+				</div>
+				<div class='button_right'>
+					>
+				</div>
+				<div class='button_bottom'>
+					<div style='background:red;'>1</div>
+					<div>2</div>
+					<div>3</div>
+					<div>4</div>
+					<div>5</div>
+					<div>6</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			$(document).ready(function(){
+				$('ul')[0].style.width=$('.box_image li').size()*$('.box_image li').width()+'px';
+				var speed=10;
+				var n=0;
+				function start(){
+					n++;
+					if(n>=6){
+						$('ul').animate({left:0},500);;	
+						n=0;
+					}
+					$('.button_bottom div').css('background','black')
+					$('.button_bottom div').eq(n).css('background','red')
+					$('ul').animate({left:-$('.box_image li').width()*n+'px'},500);
+				}
+				t=setInterval(start,2000)
+				$('.box_image').mouseover(function(){
+					$('.button_left').add($('.button_right')).show();
+					clearTimeout(t);
+				})
+				$('.box_image').mouseout(function(){
+					$('.button_left').add($('.button_right')).hide();
+					t=setInterval(start,1000);
+					tt=setTimeout(function(){
+						$('.button_left').add($('.button_right')).hide();
+					},500)
+				})
+				$('.button_left').add($('.button_right')).mouseover(function(){
+					$(this).show();
+					clearTimeout(t);
+					clearTimeout(tt);
+				})
+				$('.button_left').add($('.button_right')).mouseout(function(){
+					$(this).hide();
+					t=setInterval(start,1000);
+				})
+				$('.button_left').click(function(){
+					n--
+					if(n<6&&n>=0){
+						$('.button_bottom div').css('background','black')
+						$('.box_image').animate({left:-$('.box_image li').width()*n+'px'})
+						$('.button_bottom div').eq(n).css('background','red')	
+					}
+					else{
+						$('.button_bottom div').css('background','black')
+						$('.box_image').animate({left:-$('.box_image li').width()*5+'px'})
+						$('.button_bottom div').eq(5).css('background','red')
+						n=5
+					}
+				})
+				$('.button_right').click(function(){
+					n++
+					if(n<6&&n>0){
+						$('.button_bottom div').css('background','black')
+						$('.box_image').animate({left:-$('.box_image li').width()*n+'px'})
+						$('.button_bottom div').eq(n).css('background','red')
+					}
+					else{
+						$('.button_bottom div').css('background','black')
+						$('.box_image').animate({left:-$('.box_image li').width()*0+'px'})
+						$('.button_bottom div').eq(0).css('background','red')
+						n=0
+					}
+				})
+				$('.button_bottom div').each(function(){
+					var index=$(this).index();
+					$(this).mouseover(function(){
+						clearTimeout(t);
+						$('.button_bottom div').css('background','black')
+						$('.button_bottom div').eq(index).css('background','red');
+						$('.box_image').animate({left:-$('.box_image li').width()*index+'px'})
+						return n=index;
+					})
+					$(this).mouseout(function(){
+						t=setInterval(start,1000);
+						return n=index;
+					})
+				})
+			})
+		</script>
+	</body>
+</html>
